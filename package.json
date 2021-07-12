@@ -55,6 +55,6 @@
     ]
   },
   "bin": {
-    "let-me-react": "./generate-project.js"
+    "let-me-react": "./bin/generate-project.js"
   }
 }
