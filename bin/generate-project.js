@@ -55,16 +55,16 @@ async function setup() {
     process.chdir(appPath);
 
     console.log('\x1b[34m', 'Installing dependencies...', '\x1b[0m');
-    await runCmd('npm install');
+    await runCmd('yarn install');
     console.log();
 
     await runCmd('npx rimraf ./.git');
 
-    fs.unlinkSync(path.join(appPath, 'LICENSE.MD'));
+    fs.unlinkSync(path.join(appPath, 'LICENSE'));
     fs.rmdirSync(path.join(appPath, 'bin'), { recursive: true });
     fs.unlinkSync(path.join(appPath, 'package.json'));
 
-    buildPackageJson(packageJson, folderName);
+    await buildPackageJson(packageJson, folderName);
 
     console.log(
       '\x1b[32m',
@@ -86,14 +86,10 @@ async function setup() {
 
 setup();
 
-function buildPackageJson(packageJson, folderName) {
+async function buildPackageJson(packageJson, folderName) {
   const {
-    bin,
     keywords,
     license,
-    homepage,
-    repository,
-    bugs,
     ...newPackage
   } = packageJson;
 
@@ -122,6 +118,7 @@ function buildPackageJson(packageJson, folderName) {
           "web-vitals": "^1.0.1"
       },
   });
+  console.log(packageJson)
 
   fs.writeFileSync(
     `${process.cwd()}/package.json`,
