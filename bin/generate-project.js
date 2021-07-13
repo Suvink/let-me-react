@@ -5,8 +5,11 @@
 const path = require('path');
 const util = require('util');
 const packageJson = require('../package.json');
+const chalkAnimation = require('chalk-animation');
 const fs = require('fs');
+var figlet = require('figlet');
 const exec = util.promisify(require('child_process').exec);
+let newPackage = {};
 
 async function runCmd(command) {
   try {
@@ -49,35 +52,45 @@ try {
 
 async function setup() {
   try {
-    console.log('\x1b[33m', 'Downloading the project structure... So පොඩ්ඩක් ඉඳපන්!', '\x1b[0m');
+    const rainbow = chalkAnimation.karaoke('⬇️  Downloading the project structure... So පොඩ්ඩක් ඉඳපන්! ');
+    rainbow.start();
     await runCmd(`git clone --depth 1 ${repo} ${folderName}`);
-
+    rainbow.stop();
     process.chdir(appPath);
-
-    console.log('\x1b[34m', 'Installing dependencies...', '\x1b[0m');
-    await runCmd('yarn install');
-    console.log();
-
-    await runCmd('npx rimraf ./.git');
 
     fs.unlinkSync(path.join(appPath, 'LICENSE'));
     fs.rmdirSync(path.join(appPath, 'bin'), { recursive: true });
     fs.unlinkSync(path.join(appPath, 'package.json'));
 
+    console.log('\x1b[36m', '⌛ Creating a new package...', '\x1b[0m');
     await buildPackageJson(packageJson, folderName);
 
+    const karoke = chalkAnimation.karaoke('⌛  Installing dependencies...');
+    karoke.start();
+    await runCmd('yarn install');
+    karoke.stop();
+    console.log();
+
+    await runCmd('npx rimraf ./.git');
+
+    figlet('READY!', function (err, data) {
+      if (err) {
+        return;
+      }
+      console.log(data)
+    });
     console.log(
       '\x1b[32m',
-      'The installation is done, this is ready to use !',
+      '✅  The installation is done, You may React Now! That means ගිහින් වැඩ කරපන්!',
       '\x1b[0m'
     );
     console.log();
 
-    console.log('\x1b[34m', 'You can start by typing:');
+    console.log('\x1b[33m', 'You can start by typing:');
     console.log(`    cd ${folderName}`);
-    console.log('    npm start', '\x1b[0m');
+    console.log('    npm start', '\x1b[33m');
     console.log();
-    console.log('Check Readme.md for more informations');
+    console.log('Check README.md for more information');
     console.log();
   } catch (error) {
     console.log(error);
@@ -94,26 +107,37 @@ async function buildPackageJson(packageJson, folderName) {
     author: '',
     license: "ISC",
     scripts: {
-        start: "react-scripts start",
-        build: "react-scripts build",
-        test: "react-scripts test",
-        eject: "react-scripts eject"
+      start: "react-scripts start",
+      build: "react-scripts build",
+      test: "react-scripts test",
+      eject: "react-scripts eject"
     },
-      dependencies: {
-          "@testing-library/jest-dom": "^5.11.4",
-          "@testing-library/react": "^11.1.0",
-          "@testing-library/user-event": "^12.1.10",
-          "bulma": "^0.9.2",
-          "notistack": "^1.0.9",
-          "react": "^17.0.2",
-          "react-dom": "^17.0.2",
-          "react-router-dom": "^5.2.0",
-          "react-scripts": "4.0.3",
-          "sweetalert2": "^11.0.18",
-          "web-vitals": "^1.0.1"
-      },
+    dependencies: {
+      "@testing-library/jest-dom": "^5.11.4",
+      "@testing-library/react": "^11.1.0",
+      "@testing-library/user-event": "^12.1.10",
+      "bulma": "^0.9.2",
+      "notistack": "^1.0.9",
+      "react": "^17.0.2",
+      "react-dom": "^17.0.2",
+      "react-router-dom": "^5.2.0",
+      "react-scripts": "4.0.3",
+      "sweetalert2": "^11.0.18",
+      "web-vitals": "^1.0.1"
+    },
+    "browserslist": {
+      "production": [
+        ">0.2%",
+        "not dead",
+        "not op_mini all"
+      ],
+      "development": [
+        "last 1 chrome version",
+        "last 1 firefox version",
+        "last 1 safari version"
+      ]
+    }
   };
-  console.log(newPackage)
 
   fs.writeFileSync(
     `${process.cwd()}/package.json`,
