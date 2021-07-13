@@ -87,17 +87,12 @@ async function setup() {
 setup();
 
 async function buildPackageJson(packageJson, folderName) {
-  const {
-    keywords,
-    license,
-    ...newPackage
-  } = packageJson;
-
-  Object.assign(newPackage, {
+  newPackage = {
     name: folderName,
     version: '1.0.0',
     description: 'A sample ReactJS App Created with Let-Me-React',
     author: '',
+    license: "ISC",
     scripts: {
         start: "react-scripts start",
         build: "react-scripts build",
@@ -117,8 +112,8 @@ async function buildPackageJson(packageJson, folderName) {
           "sweetalert2": "^11.0.18",
           "web-vitals": "^1.0.1"
       },
-  });
-  console.log(packageJson)
+  };
+  console.log(newPackage)
 
   fs.writeFileSync(
     `${process.cwd()}/package.json`,
