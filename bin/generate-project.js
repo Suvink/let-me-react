@@ -62,7 +62,7 @@ async function setup() {
     fs.rmdirSync(path.join(appPath, 'bin'), { recursive: true });
     fs.unlinkSync(path.join(appPath, 'package.json'));
 
-    console.log('\x1b[36m', '⌛ Creating a new package...', '\x1b[0m');
+    console.log('\x1b[36m', '⌛  Creating a new package...', '\x1b[0m');
     await buildPackageJson(packageJson, folderName);
 
     const karoke = chalkAnimation.karaoke('⌛  Installing dependencies...');
