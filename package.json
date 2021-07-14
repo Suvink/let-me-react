@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "A simple ReactJS Boilerplate :)",
   "dependencies": {
+    "@material-ui/core": "^4.12.1",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "axios": "^0.21.1",
     "bulma": "^0.9.2",
     "chalk-animation": "^1.6.0",
     "figlet": "^1.5.0",

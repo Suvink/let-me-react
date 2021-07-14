@@ -118,6 +118,7 @@ async function buildPackageJson(packageJson, folderName) {
       "@testing-library/jest-dom": "^5.11.4",
       "@testing-library/react": "^11.1.0",
       "@testing-library/user-event": "^12.1.10",
+      "@material-ui/core": "^4.12.1",
       "bulma": "^0.9.2",
       "notistack": "^1.0.9",
       "react": "^17.0.2",
@@ -125,7 +126,8 @@ async function buildPackageJson(packageJson, folderName) {
       "react-router-dom": "^5.2.0",
       "react-scripts": "4.0.3",
       "sweetalert2": "^11.0.18",
-      "web-vitals": "^1.0.1"
+      "web-vitals": "^1.0.1",
+      "axios": "^0.21.1",
     },
     "browserslist": {
       "production": [
