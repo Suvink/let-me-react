@@ -1,6 +1,6 @@
 {
   "name": "let-me-react",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple ReactJS Boilerplate :)",
   "dependencies": {
     "@material-ui/core": "^4.12.1",
