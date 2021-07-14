@@ -59,6 +59,7 @@ async function setup() {
     process.chdir(appPath);
 
     fs.unlinkSync(path.join(appPath, 'LICENSE'));
+    fs.unlinkSync(path.join(appPath, 'README.md'));
     fs.rmdirSync(path.join(appPath, 'bin'), { recursive: true });
     fs.unlinkSync(path.join(appPath, 'package.json'));
     fs.unlinkSync(path.join(appPath, 'package-lock.json'));

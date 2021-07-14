@@ -1,70 +1,109 @@
-# Getting Started with Create React App
+![Javascript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black) ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB) ![npm version](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white) ![npm version](https://img.shields.io/github/followers/suvink.svg?style=social&label=Follow&maxAge=2592000)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<p align="center">
+  <a href="https://github.com/othneildrew/Best-README-Template">
+    <img src="https://github.com/othneildrew/Best-README-Template/raw/master/images/logo.png" alt="Logo" width="80" height="80">
+  </a>
 
-## Available Scripts
+  <h3 align="center">Let Me React</h3>
 
-In the project directory, you can run:
+  <p align="center">
+    A Simple ReactJS Boilerplate :)
+    <br />
+    <a href="#Installation"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/Suvink/let-me-react">View Repo</a>
+    ·
+    <a href="https://github.com/Suvink/let-me-react/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/Suvink/let-me-react/issues">Request Feature</a>
+  </p>
+</p>
 
-### `yarn start`
+## About
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Write your React App easily with Let Me React! This is similar to `create-react-app` but LMR will comes with useful packages like `react-router-dom`,`Axios`, `SweetAlert2` pre-configured so that you can dive into writing your code without having to worry about setting up the project.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Prerequisites
 
-### `yarn test`
+This project requires NodeJS (version 8 or later) and NPM.
+[Node](http://nodejs.org/) and [NPM](https://npmjs.org/) are really easy to install.
+To make sure you have them available on your machine,
+try running the following command.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```sh
+$ npm -v && node -v
+6.4.1
+v8.16.0
+```
 
-### `yarn build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Installation
 
-The build is minified and the filenames include the hashes.\
+**BEFORE YOU INSTALL:** please read the [prerequisites](#prerequisites)
+
+
+```sh
+$ npm install -g let-me-react
+```
+
+After installation, use can use the following command to initialize your project.
+
+```sh
+$ let-me-react myproject
+```
+
+Alternatively, you can use `npx` to directly use `let-me-react` without installing globally.
+
+```sh
+$ npx let-me-react myproject
+```
+
+## Usage
+After initializing your project, you can use the following scripts.
+### Serving the app
+
+```sh
+$ npm start
+```
+Runs the app in the development mode. Open http://localhost:8080 to view it in the browser. The page will hot reload as you make edits.
+
+### Running the tests
+
+```sh
+$ npm test
+```
+Launches the test runner in the interactive watch mode. See the section about <a href="https://reactjs.org/docs/test-utils.html">running tests</a> for more information.
+### Building a distribution version
+
+```sh
+$ npm run build
+```
+
+Builds the app for production and files are saved to the build folder. It bundles your files in production mode and optimizes the build for the best performance. The build is minified and the filenames include hashes.
+
 Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `yarn eject`
+## Contributing
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Donations
+<a href="https://www.buymeacoffee.com/suvink" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 30px !important;width: 108px !important;" ></a>
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## License
+[MIT License](https://andreasonny.mit-license.org/2019) © Suvin Nimnaka
+<!-- CONTACT -->
+## Contact
 
-## Learn More
+Suvin Nimnaka - [@tikirimaarie](https://twitter.com/tikirimaarie) - hello@suvin.me
+Project Link: [https://github.com/Suvink/let-me-react](https://github.com/Suvink/let-me-react)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
