@@ -5,7 +5,7 @@
     <img src="https://github.com/othneildrew/Best-README-Template/raw/master/images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">Let Me React</h3>
+  <h3 align="center">Let Me React v1.0.3</h3>
 
   <p align="center">
     A Simple ReactJS Boilerplate :)
