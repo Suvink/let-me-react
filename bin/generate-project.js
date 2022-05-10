@@ -115,21 +115,20 @@ async function buildPackageJson(packageJson, folderName) {
       eject: "react-scripts eject"
     },
     dependencies: {
-      "@testing-library/jest-dom": "^5.11.4",
-      "@testing-library/react": "^11.1.0",
-      "@testing-library/user-event": "^12.1.10",
-      "@material-ui/core": "^4.12.1",
-      "bulma": "^0.9.2",
-      "notistack": "^1.0.9",
-      "react": "^17.0.2",
-      "react-dom": "^17.0.2",
+      "@testing-library/jest-dom": "^5.16.4",
+      "@testing-library/react": "^13.2.0",
+      "@testing-library/user-event": "^13.5.0",
+      "bulma": "^0.9.4",
+      "notistack": "^2.0.4",
+      "react": "^18.1.0",
+      "react-dom": "^18.1.0",
       "react-router-dom": "^5.2.0",
-      "react-scripts": "4.0.3",
-      "sweetalert2": "^11.0.18",
-      "web-vitals": "^1.0.1",
-      "axios": "^0.21.1",
+      "react-scripts": "5.0.1",
+      "sweetalert2": "^11.4.13",
+      "web-vitals": "^2.1.4",
+      "axios": "^0.27.2",
     },
-    "browserslist": {
+    browserslist: {
       "production": [
         ">0.2%",
         "not dead",
