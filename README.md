@@ -87,9 +87,9 @@ Your app is ready to be deployed!
 
 ## Pre-Configured Plugins
  - <a href="http://bulma.io/">Bulma CSS</a> :  a free, open source framework that provides ready-to-use frontend components that you can easily combine to build responsive web interfaces.
- - <a href="http://bulma.io/">Sweetalert 2</a>: A beautiful, responsive, customizable, accessible (WAI-ARIA) replacement for JavaScript's popup boxes. Zero dependencies.
- - <a href="http://bulma.io/">Axios</a>: an HTTP client library that allows you to make requests to a given endpoint.
- - <a href="http://bulma.io/">Notistack</a>: a notification library which makes it extremely easy to display notifications on your web apps.
+ - <a href="https://sweetalert2.github.io/">Sweetalert 2</a>: A beautiful, responsive, customizable, accessible (WAI-ARIA) replacement for JavaScript's popup boxes. Zero dependencies.
+ - <a href="https://axios-http.com/docs/intro">Axios</a>: an HTTP client library that allows you to make requests to a given endpoint.
+ - <a href="https://www.iamhosseindhv.com/notistack">Notistack</a>: a notification library which makes it extremely easy to display notifications on your web apps.
  
 
 ## Contributing
