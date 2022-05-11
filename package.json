@@ -1,6 +1,6 @@
 {
   "name": "let-me-react",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "A simple ReactJS Boilerplate :)",
   "dependencies": {
     "@material-ui/core": "^4.12.1",
@@ -9,7 +9,7 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
     "bulma": "^0.9.2",
-    "chalk-animation": "^2.0.2",
+    "chalk-animation": "^1.6.0",
     "figlet": "^1.5.0",
     "notistack": "^1.0.9",
     "react": "^17.0.2",
