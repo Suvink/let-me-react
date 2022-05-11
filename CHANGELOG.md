@@ -10,3 +10,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
  - Fix: Upgrade package dependancies
  - Fix: Security issues in dependancies
  - Fix: Broken links in the documentation to the pre configured packages
+
+## [1.1.0] - 2022-05-11
+ 
+### Fixed
+ - Fix: Incompatible issue with chalk-animation
+ - Fix: Bump deprecated Node.js methods
+ - Fix: Upgrade MUI version
