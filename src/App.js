@@ -1,15 +1,16 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import HomePage from "./screens/HomePage";
-import LoginPage from "./screens/LoginPage";
-import AboutUsPage from "./screens/AboutUsPage";
-import NavBar from "./common/NavBar";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
+import HomePage from './screens/HomePage';
+import LoginPage from './screens/LoginPage';
+import AboutUsPage from './screens/AboutUsPage';
 
 function App() {
   return (
     <Router>
-      <NavBar />
-      
       <Switch>
         <Route path="/" exact>
           <HomePage />
