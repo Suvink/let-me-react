@@ -28,7 +28,7 @@ const NavBar = () => {
           className="navbar-burger"
           aria-label="menu"
           aria-expanded="false"
-          data-target="navbarBasicExample"
+          data-target="main-navbar-hamburger"
           onClick={() => {
             setisActive(!isActive);
           }}
