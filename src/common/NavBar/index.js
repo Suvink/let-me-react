@@ -39,7 +39,7 @@ const NavBar = () => {
         </a>
       </div>
 
-      <div id="navbarBasicExample" className={`navbar-menu ${isActive ? "is-active" : ""}`}>
+      <div id="main-navbar" className={`navbar-menu ${isActive ? "is-active" : ""}`}>
         <div className="navbar-start">
           {routes.map((route) => (
             <Link to={route.href} className="navbar-item">
