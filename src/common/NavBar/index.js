@@ -20,7 +20,7 @@ const NavBar = () => {
     <nav className="navbar" role="navigation" aria-label="main navigation">
       <div className="navbar-brand">
         <Link to="/" className="navbar-item">
-          <img src="/logo192.png" height="28" />
+          <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28" />
         </Link>
 
         <a
