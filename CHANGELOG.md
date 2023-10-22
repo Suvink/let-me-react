@@ -17,3 +17,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
  - Fix: Incompatible issue with chalk-animation
  - Fix: Bump deprecated Node.js methods
  - Fix: Upgrade MUI version
+
+## [1.2.0] - 2023-10-22
+
+### Fixed
+ - Feature: Add a Bulma Navbar Template
+ - Enhancement: Remove npm usage with yarn
