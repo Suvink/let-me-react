@@ -64,7 +64,7 @@ async function setup() {
     fs.unlinkSync(path.join(appPath, "README.md"));
     fs.rmSync(path.join(appPath, "bin"), { recursive: true });
     fs.unlinkSync(path.join(appPath, "package.json"));
-    fs.unlinkSync(path.join(appPath, "package-lock.json"));
+    fs.unlinkSync(path.join(appPath, "yarn.lock"));
     fs.unlinkSync(path.join(appPath, "CHANGELOG.md"));
 
     console.log("\x1b[36m", "⌛  Creating a new package...", "\x1b[0m");
