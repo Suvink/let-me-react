@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { useState } from "react";
 
 const NavBar = () => {
@@ -19,9 +18,9 @@ const NavBar = () => {
   return (
     <nav className="navbar" role="navigation" aria-label="main navigation">
       <div className="navbar-brand">
-        <Link to="/" className="navbar-item">
-          <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28" />
-        </Link>
+        <a href="/" className="navbar-item">
+          <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28"  alt="navbar-logo"/>
+        </a>
 
         <a
           role="button"
@@ -42,9 +41,9 @@ const NavBar = () => {
       <div id="main-navbar" className={`navbar-menu ${isActive ? "is-active" : ""}`}>
         <div className="navbar-start">
           {routes.map((route) => (
-            <Link to={route.href} className="navbar-item">
+            <a to={route.href} className="navbar-item">
               {route.label}
-            </Link>
+            </a>
           ))}
         </div>
 
