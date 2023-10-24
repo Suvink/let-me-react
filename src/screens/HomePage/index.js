@@ -1,7 +1,7 @@
 import React from "react";
 import './index.css';
 
-function HomePage() {
+const HomePage = () => {
   return (
     <h1>This is your Homepage</h1>
   );

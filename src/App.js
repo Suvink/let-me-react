@@ -8,7 +8,7 @@ import HomePage from './screens/HomePage';
 import LoginPage from './screens/LoginPage';
 import AboutUsPage from './screens/AboutUsPage';
 
-function App() {
+const App = () => {
   return (
     <Router>
       <Switch>
