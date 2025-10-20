@@ -1,6 +1,11 @@
+## [2.0.0] - 2025-10-20
 
-# Change Log
-All notable changes to this project will be documented in this file.
+### Added
+- Automated release via GitHub Actions
+
+### Changed
+- Version bump to 2.0.0
+
  
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
