@@ -78,6 +78,13 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
 
+      - name: Get default branch
+        id: branch
+        run: |
+          DEFAULT_BRANCH=$(git remote show origin | grep 'HEAD branch' | cut -d' ' -f5)
+          echo "default-branch=$DEFAULT_BRANCH" >> $GITHUB_OUTPUT
+          echo "Using branch: $DEFAULT_BRANCH"
+
       - name: Install dependencies
         run: |
           if [ -f "package-lock.json" ] || [ -f "npm-shrinkwrap.json" ]; then
@@ -97,21 +104,86 @@ jobs:
       - name: Determine version
         id: version
         run: |
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          echo "Current version: $CURRENT_VERSION"
+          
           if [ -n "${{ inputs.custom_version }}" ]; then
             NEW_VERSION="${{ inputs.custom_version }}"
             echo "Using custom version: $NEW_VERSION"
           else
-            npm version ${{ inputs.version_type }} --no-git-tag-version
-            NEW_VERSION=$(node -p "require('./package.json').version")
-            echo "Bumped version to: $NEW_VERSION"
+            # Check if current version already matches what we want to bump to
+            if [ "${{ inputs.version_type }}" = "patch" ]; then
+              EXPECTED_VERSION=$(node -p "
+                const semver = require('semver');
+                const pkg = require('./package.json');
+                semver.inc(pkg.version, 'patch');
+              " 2>/dev/null || echo "")
+              
+              if [ -z "$EXPECTED_VERSION" ]; then
+                # Fallback if semver is not available
+                IFS='.' read -ra ADDR <<< "$CURRENT_VERSION"
+                PATCH=$((${ADDR[2]} + 1))
+                EXPECTED_VERSION="${ADDR[0]}.${ADDR[1]}.$PATCH"
+              fi
+            elif [ "${{ inputs.version_type }}" = "minor" ]; then
+              EXPECTED_VERSION=$(node -p "
+                const semver = require('semver');
+                const pkg = require('./package.json');
+                semver.inc(pkg.version, 'minor');
+              " 2>/dev/null || echo "")
+              
+              if [ -z "$EXPECTED_VERSION" ]; then
+                IFS='.' read -ra ADDR <<< "$CURRENT_VERSION"
+                MINOR=$((${ADDR[1]} + 1))
+                EXPECTED_VERSION="${ADDR[0]}.$MINOR.0"
+              fi
+            else # major
+              EXPECTED_VERSION=$(node -p "
+                const semver = require('semver');
+                const pkg = require('./package.json');
+                semver.inc(pkg.version, 'major');
+              " 2>/dev/null || echo "")
+              
+              if [ -z "$EXPECTED_VERSION" ]; then
+                IFS='.' read -ra ADDR <<< "$CURRENT_VERSION"
+                MAJOR=$((${ADDR[0]} + 1))
+                EXPECTED_VERSION="$MAJOR.0.0"
+              fi
+            fi
+            
+            if [ "$CURRENT_VERSION" = "$EXPECTED_VERSION" ]; then
+              echo "Version is already at expected ${{ inputs.version_type }} version: $CURRENT_VERSION"
+              NEW_VERSION="$CURRENT_VERSION"
+            else
+              npm version ${{ inputs.version_type }} --no-git-tag-version
+              NEW_VERSION=$(node -p "require('./package.json').version")
+              echo "Bumped version to: $NEW_VERSION"
+            fi
           fi
+          
+          # If custom version is specified and different from current, update it
+          if [ -n "${{ inputs.custom_version }}" ] && [ "$CURRENT_VERSION" != "${{ inputs.custom_version }}" ]; then
+            npm version ${{ inputs.custom_version }} --no-git-tag-version
+            NEW_VERSION="${{ inputs.custom_version }}"
+          fi
+          
           echo "new-version=$NEW_VERSION" >> $GITHUB_OUTPUT
           echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
 
-      - name: Update version in package.json
-        if: inputs.custom_version != ''
+      - name: Check if version already exists on npm
+        id: npm-check
         run: |
-          npm version ${{ steps.version.outputs.new-version }} --no-git-tag-version
+          NEW_VERSION="${{ steps.version.outputs.new-version }}"
+          PACKAGE_NAME=$(node -p "require('./package.json').name")
+          
+          if npm view "$PACKAGE_NAME@$NEW_VERSION" version 2>/dev/null; then
+            echo "version-exists=true" >> $GITHUB_OUTPUT
+            echo "❌ Version $NEW_VERSION already exists on npm registry!"
+            exit 1
+          else
+            echo "version-exists=false" >> $GITHUB_OUTPUT
+            echo "✅ Version $NEW_VERSION is available on npm registry"
+          fi
 
       - name: Generate changelog entry
         id: changelog
@@ -146,7 +218,8 @@ jobs:
             echo "EOF"
           } >> $GITHUB_OUTPUT
 
-      - name: Commit version changes
+      - name: Check if there are changes to commit
+        id: git-check
         run: |
           git add package.json
           if [ -f "package-lock.json" ]; then
@@ -155,21 +228,68 @@ jobs:
           if [ -f "CHANGELOG.md" ]; then
             git add CHANGELOG.md
           fi
+          
+          if git diff --staged --quiet; then
+            echo "has-changes=false" >> $GITHUB_OUTPUT
+            echo "No changes to commit"
+          else
+            echo "has-changes=true" >> $GITHUB_OUTPUT
+            echo "Changes detected, will commit"
+          fi
+
+      - name: Commit version changes
+        if: steps.git-check.outputs.has-changes == 'true'
+        run: |
           git commit -m "chore: bump version to v${{ steps.version.outputs.new-version }}"
 
       - name: Create Git tag
         run: |
-          git tag -a "v${{ steps.version.outputs.new-version }}" -m "v${{ steps.version.outputs.new-version }}"
+          # Check if tag already exists
+          if git rev-parse "v${{ steps.version.outputs.new-version }}" >/dev/null 2>&1; then
+            echo "Tag v${{ steps.version.outputs.new-version }} already exists, deleting it first"
+            git tag -d "v${{ steps.version.outputs.new-version }}"
+            git push origin ":refs/tags/v${{ steps.version.outputs.new-version }}" || true
+          fi
+          git tag -a "v${{ steps.version.outputs.new-version }}" -m "Release v${{ steps.version.outputs.new-version }}"
 
       - name: Push changes and tags
         run: |
-          git push origin master
+          git push origin ${{ steps.branch.outputs.default-branch }}
           git push origin "v${{ steps.version.outputs.new-version }}"
 
       - name: Create GitHub Release
         uses: actions/github-script@v7
         with:
           script: |
+            // Check if release already exists
+            try {
+              const existingRelease = await github.rest.repos.getReleaseByTag({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                tag: 'v${{ steps.version.outputs.new-version }}'
+              });
+              
+              if (existingRelease.data) {
+                console.log('Release already exists, updating it...');
+                const updatedRelease = await github.rest.repos.updateRelease({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  release_id: existingRelease.data.id,
+                  name: 'Release v${{ steps.version.outputs.new-version }}',
+                  body: `${{ steps.changelog.outputs.release-notes }}`,
+                  draft: false,
+                  prerelease: false
+                });
+                console.log(`Updated release: ${updatedRelease.data.html_url}`);
+                return;
+              }
+            } catch (error) {
+              if (error.status !== 404) {
+                throw error;
+              }
+            }
+            
+            // Create new release if it doesn't exist
             const release = await github.rest.repos.createRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
