@@ -159,11 +159,11 @@ jobs:
 
       - name: Create Git tag
         run: |
-          git tag -a "v${{ steps.version.outputs.new-version }}" -m "Release v${{ steps.version.outputs.new-version }}"
+          git tag -a "v${{ steps.version.outputs.new-version }}" -m "v${{ steps.version.outputs.new-version }}"
 
       - name: Push changes and tags
         run: |
-          git push origin main
+          git push origin master
           git push origin "v${{ steps.version.outputs.new-version }}"
 
       - name: Create GitHub Release
