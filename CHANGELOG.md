@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
  - Enhancement: Improved boilerplate code with arrow functions.
  - Enhancement: A revamped modern looking installer.
  - Enhancement: Updated all the dependencies to their latest versions.
+ - Enhancement: Licence upgraded to Apache-2.0.
  
 ## [1.0.3] - 2022-05-10
  
