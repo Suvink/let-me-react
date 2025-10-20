@@ -1,0 +1,201 @@
+name: Release and Publish to NPM
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: 'Version bump type'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+      custom_version:
+        description: 'Custom version (optional, overrides version_type)'
+        required: false
+        type: string
+      release_notes:
+        description: 'Release notes (optional)'
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  packages: write
+  id-token: write
+
+jobs:
+  check-permissions:
+    runs-on: ubuntu-latest
+    outputs:
+      is-collaborator: ${{ steps.check.outputs.is-collaborator }}
+    steps:
+      - name: Check if user is collaborator
+        id: check
+        uses: actions/github-script@v7
+        with:
+          script: |
+            try {
+              const response = await github.rest.repos.getCollaboratorPermissionLevel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                username: context.actor
+              });
+              
+              const permission = response.data.permission;
+              const isCollaborator = ['admin', 'write', 'maintain'].includes(permission);
+              
+              core.setOutput('is-collaborator', isCollaborator);
+              
+              if (!isCollaborator) {
+                core.setFailed(`User ${context.actor} does not have sufficient permissions. Required: admin, write, or maintain. Current: ${permission}`);
+              }
+            } catch (error) {
+              core.setFailed(`Failed to check permissions: ${error.message}`);
+            }
+
+  release-and-publish:
+    needs: check-permissions
+    if: needs.check-permissions.outputs.is-collaborator == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Configure Git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests (if available)
+        run: |
+          if npm run test --dry-run 2>/dev/null; then
+            npm test
+          else
+            echo "No tests found, skipping..."
+          fi
+
+      - name: Determine version
+        id: version
+        run: |
+          if [ -n "${{ inputs.custom_version }}" ]; then
+            NEW_VERSION="${{ inputs.custom_version }}"
+            echo "Using custom version: $NEW_VERSION"
+          else
+            npm version ${{ inputs.version_type }} --no-git-tag-version
+            NEW_VERSION=$(node -p "require('./package.json').version")
+            echo "Bumped version to: $NEW_VERSION"
+          fi
+          echo "new-version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+
+      - name: Update version in package.json
+        if: inputs.custom_version != ''
+        run: |
+          npm version ${{ steps.version.outputs.new-version }} --no-git-tag-version
+
+      - name: Generate changelog entry
+        id: changelog
+        run: |
+          CURRENT_DATE=$(date +"%Y-%m-%d")
+          NEW_VERSION="${{ steps.version.outputs.new-version }}"
+          
+          if [ -n "${{ inputs.release_notes }}" ]; then
+            CHANGELOG_ENTRY="## [$NEW_VERSION] - $CURRENT_DATE
+          
+          ${{ inputs.release_notes }}"
+          else
+            CHANGELOG_ENTRY="## [$NEW_VERSION] - $CURRENT_DATE
+          
+          ### Added
+          - Automated release via GitHub Actions
+          
+          ### Changed
+          - Version bump to $NEW_VERSION"
+          fi
+          
+          if [ -f "CHANGELOG.md" ]; then
+            echo "$CHANGELOG_ENTRY" > temp_changelog.md
+            echo "" >> temp_changelog.md
+            tail -n +4 CHANGELOG.md >> temp_changelog.md
+            mv temp_changelog.md CHANGELOG.md
+          fi
+          
+          {
+            echo "release-notes<<EOF"
+            echo "$CHANGELOG_ENTRY"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
+
+      - name: Commit version changes
+        run: |
+          git add package.json package-lock.json
+          if [ -f "CHANGELOG.md" ]; then
+            git add CHANGELOG.md
+          fi
+          git commit -m "chore: bump version to v${{ steps.version.outputs.new-version }}"
+
+      - name: Create Git tag
+        run: |
+          git tag -a "v${{ steps.version.outputs.new-version }}" -m "Release v${{ steps.version.outputs.new-version }}"
+
+      - name: Push changes and tags
+        run: |
+          git push origin main
+          git push origin "v${{ steps.version.outputs.new-version }}"
+
+      - name: Create GitHub Release
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const release = await github.rest.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: 'v${{ steps.version.outputs.new-version }}',
+              name: 'Release v${{ steps.version.outputs.new-version }}',
+              body: `${{ steps.changelog.outputs.release-notes }}`,
+              draft: false,
+              prerelease: false
+            });
+            
+            console.log(`Created release: ${release.data.html_url}`);
+
+      - name: Publish to NPM
+        run: npm publish --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Success notification
+        run: |
+          echo "🎉 Successfully released v${{ steps.version.outputs.new-version }}!"
+          echo "📦 Package published to NPM"
+          echo "🏷️ Git tag created: v${{ steps.version.outputs.new-version }}"
+          echo "📋 GitHub release created"
+
+  notify-failure:
+    needs: [check-permissions, release-and-publish]
+    if: always() && (needs.check-permissions.result == 'failure' || needs.release-and-publish.result == 'failure')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Failure notification
+        run: |
+          if [ "${{ needs.check-permissions.result }}" == "failure" ]; then
+            echo "❌ Permission check failed: Only repository collaborators can run this workflow"
+          elif [ "${{ needs.release-and-publish.result }}" == "failure" ]; then
+            echo "❌ Release and publish failed. Check the logs above for details."
+          fi
+          exit 1

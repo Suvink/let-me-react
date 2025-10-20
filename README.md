@@ -1,17 +1,12 @@
-![Javascript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black) ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB) ![npm version](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white) ![npm version](https://img.shields.io/github/followers/suvink.svg?style=social&label=Follow&maxAge=2592000)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB) ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white) ![Javascript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)  ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white) ![npm version](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white) ![npm version](https://img.shields.io/github/followers/suvink.svg?style=social&label=Follow&maxAge=2592000)
 
 <p align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="https://github.com/othneildrew/Best-README-Template/raw/master/images/logo.png" alt="Logo" width="80" height="80">
-  </a>
+  <img src="./img/lmr-logo-white.png" alt="Logo" width="300">
 
-  <h3 align="center">Let Me React v1.0.3</h3>
+  <h3 align="center">Let Me React v2.0.0</h3>
 
   <p align="center">
     A Simple ReactJS Boilerplate :)
-    <br />
-    <a href="#Installation"><strong>Explore the docs »</strong></a>
-    <br />
     <br />
     <a href="https://github.com/Suvink/let-me-react">View Repo</a>
     ·
@@ -23,78 +18,155 @@
 
 ## About
 
-Write your React App easily with Let Me React! This is similar to `create-react-app` but LMR will comes with useful packages like `react-router-dom`,`Axios`, `SweetAlert2` pre-configured so that you can dive into writing your code without having to worry about setting up the project.
+Write your React App easily with Let Me React! This modern boilerplate comes with Vite for lightning-fast development, along with useful packages like `react-router-dom`, `Axios`, `SweetAlert2`, and more pre-configured so that you can dive into writing your code without having to worry about setting up the project.
+
+## What's New in v2.0.0
+
+- 🚀 **Vite Integration**: Lightning-fast development with Vite instead of Create React App
+- 📝 **TypeScript Support**: Choose between JavaScript or TypeScript for your project
+- 📦 **Package Manager Choice**: Support for both npm and yarn
+- 🎨 **Enhanced UI**: Beautiful animated CLI experience
+- ⚡ **Faster Build Times**: Leveraging Vite's superior performance
 
 ## Prerequisites
 
-This project requires NodeJS (version 8 or later) and NPM.
+This project requires NodeJS (version 20.19 or later) and NPM.
 [Node](http://nodejs.org/) and [NPM](https://npmjs.org/) are really easy to install.
-To make sure you have them available on your machine,
-try running the following command.
+To make sure you have them available on your machine, try running the following command.
 
 ```sh
 $ npm -v && node -v
-6.4.1
-v8.16.0
+10.2.4
+v20.19.0
 ```
-
 
 ## Installation
 
 **BEFORE YOU INSTALL:** please read the [prerequisites](#prerequisites)
 
-
 ```sh
-$ npm install -g let-me-react
+npm install -g let-me-react
 ```
 
-After installation, use can use the following command to initialize your project.
+After installation, you can use the following command to initialize your project:
 
 ```sh
-$ let-me-react myproject
+let-me-react myproject
 ```
 
-Alternatively, you can use `npx` to directly use `let-me-react` without installing globally.
+Alternatively, you can use `npx` to directly use `let-me-react` without installing globally:
 
 ```sh
-$ npx let-me-react myproject
+npx let-me-react myproject
+```
+
+### Command Syntax
+
+```sh
+let-me-react <project-name> [language] [options]
+```
+
+**Arguments:**
+- `<project-name>` (required): Name of the React project to create
+- `[language]` (optional): Programming language - `javascript` or `typescript` (defaults to `javascript`)
+
+**Options:**
+- `--yarn`: Use yarn as package manager
+- `--npm`: Use npm as package manager (default)
+
+### Examples
+
+Create a JavaScript project with npm:
+```sh
+let-me-react my-app javascript --npm
+```
+
+Create a TypeScript project with yarn:
+```sh
+let-me-react my-app typescript --yarn
+```
+
+Simple JavaScript project (using defaults):
+```sh
+let-me-react my-app
+```
+
+Alternatively, you can use `npx` to directly use `let-me-react` without installing globally:
+
+```sh
+npx let-me-react myproject
 ```
 
 ## Usage
 After initializing your project, you can use the following scripts.
+
 ### Serving the app
 
 ```sh
-$ npm start
+npm run dev
 ```
-Runs the app in the development mode. Open http://localhost:3000 to view it in the browser. The page will hot reload as you make edits.
+Runs the app in development mode with Vite. Open http://localhost:5173 to view it in the browser. The page will hot reload as you make edits with lightning-fast HMR (Hot Module Replacement).
 
 ### Running the tests
 
 ```sh
-$ npm test
+npm test
 ```
-Launches the test runner in the interactive watch mode. See the section about <a href="https://reactjs.org/docs/test-utils.html">running tests</a> for more information.
+Launches the test runner. See the Vite testing documentation for more information.
+
 ### Building a distribution version
 
 ```sh
-$ npm run build
+npm run build
 ```
 
-Builds the app for production and files are saved to the build folder. It bundles your files in production mode and optimizes the build for the best performance. The build is minified and the filenames include hashes.
+Builds the app for production using Vite's optimized build process. Files are saved to the `dist` folder. The build is minified and optimized for the best performance.
 
-Your app is ready to be deployed!
+### Preview the production build
 
-## Pre-Configured Plugins
- - <a href="http://bulma.io/">Bulma CSS</a> :  a free, open source framework that provides ready-to-use frontend components that you can easily combine to build responsive web interfaces.
- - <a href="https://sweetalert2.github.io/">Sweetalert 2</a>: A beautiful, responsive, customizable, accessible (WAI-ARIA) replacement for JavaScript's popup boxes. Zero dependencies.
- - <a href="https://axios-http.com/docs/intro">Axios</a>: an HTTP client library that allows you to make requests to a given endpoint.
- - <a href="https://www.iamhosseindhv.com/notistack">Notistack</a>: a notification library which makes it extremely easy to display notifications on your web apps.
- 
+```sh
+npm run preview
+```
+
+Serves the production build locally for testing before deployment.
+
+## Pre-Configured Plugins & Libraries
+
+- 🎨 **[Bulma CSS](http://bulma.io/)**: A modern CSS framework based on Flexbox with beautiful components
+- 🍭 **[SweetAlert2](https://sweetalert2.github.io/)**: Beautiful, responsive, customizable popup boxes
+- 🌐 **[Axios](https://axios-http.com/docs/intro)**: Promise-based HTTP client for making API requests
+- 📢 **[Notistack](https://www.iamhosseindhv.com/notistack)**: Highly customizable notification snackbars
+- 🧭 **[React Router](https://reactrouter.com/)**: Declarative routing for React applications
+- 🎭 **[FontAwesome](https://fontawesome.com/)**: Vector icons and social logos (all icon sets included)
+- 🎬 **[Animate.css](https://animate.style/)**: Cross-browser CSS animations
+- 📜 **[AOS (Animate On Scroll)](https://michalsnik.github.io/aos/)**: Smooth scroll animations
+
+## Project Structure
+
+Your generated project will have the following structure:
+
+```
+my-app/
+├── public/
+├── src/
+│   ├── components/
+│   │   └── NavBar/
+│   │       ├── index.jsx (or .tsx)
+│   │       └── style.css
+│   ├── screens/
+│   │   ├── HomePage/
+│   │   ├── AboutPage/
+│   │   └── LoginPage/
+│   ├── App.jsx (or .tsx)
+│   ├── main.jsx (or .tsx)
+│   └── index.css
+├── package.json
+└── vite.config.js
+```
 
 ## Contributing
 
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
@@ -106,8 +178,8 @@ Contributions are what make the open source community such an amazing place to b
 <a href="https://www.buymeacoffee.com/suvink" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 30px !important;width: 108px !important;" height="30"></a>
 
 ## License
-[MIT License](https://andreasonny.mit-license.org/2019) © Suvin Nimnaka
-<!-- CONTACT -->
+[Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0) © Suvin Kodituwakku
+
 ## Contact
 
 Suvin Nimnaka - [@tikirimaarie](https://twitter.com/tikirimaarie) - hello@suvin.me
